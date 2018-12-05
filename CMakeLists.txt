@@ -51,6 +51,7 @@ endif()
 include_directories(
         Classes
         ${COCOS2DX_ROOT_PATH}/cocos/audio/include/
+	${COCOS2DX_ROOT_PATH}/external/spidermonkey/include/${PLATFORM_FOLDER}
 )
 # add cross-platforms source files and header files 
 list(APPEND GAME_SOURCE

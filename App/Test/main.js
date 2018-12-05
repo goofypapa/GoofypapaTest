@@ -12,17 +12,23 @@ Main = cc.ComponentJS.extend({
                                
                                onEnter: function() {
                                var owner = this.getOwner();
+                             
+                             var visibleSize = cc.director.getVisibleSize();
+                             var visibleOrigin = cc.director.getVisibleOrigin();
+                             
+                             console.log( "------->" + JSON.stringify( visibleSize ) );
+                             console.log( "------->" + JSON.stringify( visibleOrigin ) );
                                
                                
-                               var label = new cc.LabelTTF( "haha", "fonts/Marker Felt.ttf", 32);
+                               var label = new cc.LabelTTF( "-----haha------", "fonts/Marker Felt.ttf", 36);
                                label.setColor(cc.color(255, 0, 0));
-                               label.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+                               label.setPosition( visibleOrigin.x + visibleSize.width/2, visibleOrigin.y + visibleSize.height/2);
                                
                                owner.addChild( label );
                                
                                var sprite = new cc.Sprite( "HelloWorld.png" );
                                var spriteSize = sprite.getContentSize();
-                               sprite.setPosition( spriteSize.width / 2, spriteSize.height / 2 );
+                               sprite.setPosition( visibleOrigin.x + visibleSize.width - spriteSize.width / 2, visibleOrigin.y + spriteSize.height / 2 );
                                owner.addChild( sprite );
                                
                                console.log( "==============" + JSON.stringify( spriteSize ) );

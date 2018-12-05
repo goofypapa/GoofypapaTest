@@ -102,6 +102,43 @@ android {
             }
         }
     }
+    buildToolsVersion '27.0.3'
+}
+
+def getCocosCommandPath() {
+    if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
+        return 'cocos.bat'
+    }
+    else {
+        // on unix like system, can not get environments variables easily
+        // so run a shell script to get environment variable sets by cocos2d-x setup.py
+        new ByteArrayOutputStream().withStream { os ->
+            def result = exec {
+                executable = project.file('get_environment.sh')
+                standardOutput = os
+            }
+            ext.console_path = os.toString().trim()
+        }
+        return new File(console_path + '/cocos').absolutePath;
+    }
+}
+
+
+// a method used to invoke the cocos jscompile command
+def compileJS(srcDir, dstDir) {
+    def compileArgs = ['jscompile', '-s', srcDir, '-d', dstDir]
+
+    println 'running command : ' + 'cocos ' + compileArgs.join(' ')
+    exec {
+        // if you meet problem, just replace `getCocosCommandPath()` to the path of cocos command
+        executable getCocosCommandPath()
+        args compileArgs
+    }
+
+    // remove the js files in dstDir
+    delete fileTree(dstDir) {
+        include '**/*.js'
+    }
 }
 
 android.applicationVariants.all { variant ->
@@ -110,9 +147,29 @@ android.applicationVariants.all { variant ->
 
     variant.mergeAssets.doLast {
         copy {
+            from "${buildDir}/../../../App"
+            into "${buildDir}/intermediates/assets/${variant.dirName}/App"
+        }
+        copy {
             from "${buildDir}/../../../Resources"
             into "${buildDir}/intermediates/assets/${variant.dirName}"
             exclude "**/*.gz"
+        }
+
+        copy {
+            from "${buildDir}/../../../cocos2d/cocos/scripting/js-bindings/script"
+            into  "${buildDir}/intermediates/assets/${variant.dirName}/script"
+        }
+
+        // compile the scripts if necessary
+        def compileScript = (variant.name.compareTo('release') == 0)
+        if (project.hasProperty('PROP_COMPILE_SCRIPT')) {
+            compileScript = (PROP_COMPILE_SCRIPT.compareTo('1') == 0)
+        }
+
+        if (compileScript) {
+            compileJS("${buildDir}/intermediates/assets/${variant.dirName}",
+                    "${buildDir}/intermediates/assets/${variant.dirName}")
         }
     }
 }
