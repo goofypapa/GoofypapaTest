@@ -195,10 +195,10 @@ static int register_all_packages()
 #if defined(COCOS2D_DEBUG) && (COCOS2D_DEBUG > 0)
     sc->enableDebugger();
 #endif
-    ScriptEngineManager::getInstance()->setScriptEngine(sc);
-    //    ScriptingCore::getInstance()->runScript("main.js");
+//    ScriptEngineManager::getInstance()->setScriptEngine(sc);
+//    ScriptingCore::getInstance()->runScript("main.js");
     
-    FileUtils::getInstance()->addSearchPath( "src" );
+    FileUtils::getInstance()->addSearchPath( "App" );
     
     return 0; //flag for packages manager
 }
