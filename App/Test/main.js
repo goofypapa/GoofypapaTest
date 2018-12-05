@@ -17,6 +17,8 @@ Main = cc.ComponentJS.extend({
 
         console.log( "------->" + JSON.stringify( visibleSize ) );
         console.log( "------->" + JSON.stringify( visibleOrigin ) );
+                
+        jsb.fileUtils.addSearchPath( "App/Test/res" );
 
 
         var label = new cc.LabelTTF( "-----haha------", "fonts/Marker Felt.ttf", 36);
