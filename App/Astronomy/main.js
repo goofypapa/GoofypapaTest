@@ -8,16 +8,17 @@
 //
 
 require('script/jsb.js');
+require('App/Astronomy/carouselscene.js');
 
 Main = cc.ComponentJS.extend({
-                             
-                             onEnter: function() {
-                             var scene = this.getOwner();
-                             
-                             
-                             },
-                             update: function(dt){
-                             
-                             }
-                             });
+                 onEnter: function() {
+                     jsb.fileUtils.addSearchPath("App/Astronomy/res",true);
+                     var scenea = CarouselScene.create("You Lose");
+                     cc.director.runScene(scenea);
+
+                 },
+                 update: function(dt){
+
+                 }
+});
 
