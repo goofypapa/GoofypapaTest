@@ -2192,7 +2192,7 @@ js_proxy_t* jsb_new_proxy(void* nativeObj, JS::HandleObject jsHandle)
         }
 #endif
 
-        CC_ASSERT(_native_js_global_map.find(nativeObj) == _native_js_global_map.end() && "Native Key should not be present");
+//        CC_ASSERT(_native_js_global_map.find(nativeObj) == _native_js_global_map.end() && "Native Key should not be present");
         // If native proxy doesn't exist, and js proxy exist, means previous js object in this location have already been released.
         // In some circumstances, js object may be released without calling its finalizer, so the proxy haven't been removed.
         // For ex: var seq = cc.sequence(moveBy, cc.callFunc(this.callback, this));

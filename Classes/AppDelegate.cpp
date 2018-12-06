@@ -198,6 +198,8 @@ static int register_all_packages()
 //    ScriptEngineManager::getInstance()->setScriptEngine(sc);
 //    ScriptingCore::getInstance()->runScript("main.js");
     
+    sc->runScript("script/jsb.js");
+    
     FileUtils::getInstance()->addSearchPath( "App" );
     
     return 0; //flag for packages manager
